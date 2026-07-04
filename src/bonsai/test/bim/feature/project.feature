@@ -41,6 +41,27 @@ Scenario: New project - metric (m) preset
     And the object "IfcBuilding/My Building" is in the collection "IfcBuilding/My Building"
     And the object "IfcBuildingStorey/My Storey" is in the collection "IfcBuildingStorey/My Storey"
 
+Scenario: New project - metric (m-kg-s) preset
+    Given an empty Blender session
+    When I press "bim.new_project(preset='metric_m')"
+    Then an IFC file exists
+    And the object "IfcProject/My Project" is an "IfcProject"
+    And the object "IfcSite/My Site" is an "IfcSite"
+    And the object "IfcBuilding/My Building" is an "IfcBuilding"
+    And the object "IfcBuildingStorey/My Storey" is an "IfcBuildingStorey"
+    And the object "IfcProject/My Project" is in the collection "IfcProject/My Project"
+    And the object "IfcSite/My Site" is in the collection "IfcSite/My Site"
+    And the object "IfcBuilding/My Building" is in the collection "IfcBuilding/My Building"
+    And the object "IfcBuildingStorey/My Storey" is in the collection "IfcBuildingStorey/My Storey"
+    And the "LENGTHUNIT" is in "METRE"
+    And the "AREAUNIT" is in "SQUARE_METRE"
+    And the "VOLUMEUNIT" is in "CUBIC_METRE"
+    And the "MASSUNIT" is in "KILOGRAM"
+    And the "TIMEUNIT" is in "SECOND"
+    And the "PLANEANGLEUNIT" is in "degree"
+    And the "FORCEUNIT" is in "NEWTON"
+    And the "PRESSUREUNIT" is in "PASCAL"
+
 Scenario: New project - metric (mm) preset
     Given an empty Blender session
     When I press "bim.new_project(preset='metric_mm')"

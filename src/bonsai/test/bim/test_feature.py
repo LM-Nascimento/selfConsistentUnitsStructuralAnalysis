@@ -1968,3 +1968,17 @@ def run_debugpy() -> types.NoneType:
 
     # Set a breakpoint here.
     print("debugpy connected")
+
+
+@then(parsers.parse('the "{unit_type}" is in "{unit_name}"'))
+def the_unit_type_is_unit_name(unit_type, unit_name):
+    ifc = tool.Ifc.get()
+    units = ifc.by_type("IfcProject")[0].UnitsInContext.Units
+    found_unit = None
+    for un in units:
+        if un.UnitType == unit_type:
+            found_unit = un
+            break
+    if found_unit is None:
+        assert False, f"no {unit_type} assigned to the project"
+    assert found_unit.Name == unit_name, f"{unit_type} is in {found_unit.Name} shoul be in {unit_name}"
