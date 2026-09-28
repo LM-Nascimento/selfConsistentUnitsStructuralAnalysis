@@ -81,7 +81,7 @@ if TYPE_CHECKING:
     from bonsai.bim.module.project.prop import Link
 
 
-PresetType = Literal["metric_m", "metric_mm", "imperial_ft", "demo", "wizard"]
+PresetType = Literal["metric_m","metric_m_kg_s", "metric_mm", "imperial_ft", "demo", "wizard"]
 
 
 class NewProject(bpy.types.Operator):
@@ -107,6 +107,12 @@ class NewProject(bpy.types.Operator):
             bim_props.area_unit = "SQUARE_METRE"
             bim_props.volume_unit = "CUBIC_METRE"
             pprops.template_file = "0"
+        elif self.preset == "metric_m_kg_s":
+            pprops.export_schema = "IFC4"
+            bpy.context.scene.unit_settings.system = "METRIC"
+            bpy.context.scene.unit_settings.length_unit = "METERS"
+            bim_props.mass_unit = "KILO/GRAM"
+            bim_props.time_unit = "SECOND"
         elif self.preset == "metric_mm":
             pprops.export_schema = "IFC4"
             bpy.context.scene.unit_settings.system = "METRIC"

@@ -70,6 +70,7 @@ class BIM_MT_project(Menu):
 
     def draw(self, context):
         self.layout.operator("bim.new_project", text="New Metric (m) Project").preset = "metric_m"
+        self.layout.operator("bim.new_project", text="New Metric (m-kg-s) Project").preset = "metric_m_kg_s"
         self.layout.operator("bim.new_project", text="New Metric (mm) Project").preset = "metric_mm"
         self.layout.operator("bim.new_project", text="New Imperial (ft) Project").preset = "imperial_ft"
         self.layout.operator("bim.new_project", text="New Demo Project").preset = "demo"

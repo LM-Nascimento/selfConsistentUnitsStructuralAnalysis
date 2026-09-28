@@ -54,6 +54,7 @@ def create_project(
 
     project.run_root_assign_class(obj=project_obj, ifc_class="IfcProject", should_add_representation=False)
     project.run_unit_assign_scene_units()
+    project.run_unit_assign_derived_scene_units()
 
     model = project.run_context_add_context(context_type="Model", context_identifier="", target_view="", parent=0)
     body = project.run_context_add_context(

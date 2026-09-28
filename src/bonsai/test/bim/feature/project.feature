@@ -58,7 +58,7 @@ Scenario: New project - metric (m-kg-s) preset
     And the "VOLUMEUNIT" is in "CUBIC_METRE"
     And the "MASSUNIT" is in "KILOGRAM"
     And the "TIMEUNIT" is in "SECOND"
-    And the "PLANEANGLEUNIT" is in "degree"
+    And the "PLANEANGLEUNIT" is in "RADIAN"
     And the "FORCEUNIT" is in "NEWTON"
     And the "PRESSUREUNIT" is in "PASCAL"
 

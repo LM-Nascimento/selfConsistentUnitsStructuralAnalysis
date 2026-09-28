@@ -1981,4 +1981,8 @@ def the_unit_type_is_unit_name(unit_type, unit_name):
             break
     if found_unit is None:
         assert False, f"no {unit_type} assigned to the project"
-    assert found_unit.Name == unit_name, f"{unit_type} is in {found_unit.Name} shoul be in {unit_name}"
+    if found_unit.UnitType == "MASSUNIT":
+        assert found_unit.Name == unit_name[4:], f"{unit_type} name is {found_unit.Name} should be {unit_name[4:]}"
+        assert found_unit.Prefix == unit_name[:4], f"{unit_type} prefix is {found_unit.Prefix} should be {unit_name[:4]}"
+    else:
+        assert found_unit.Name == unit_name, f"{unit_type} is in {found_unit.Name} should be in {unit_name}"

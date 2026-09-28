@@ -40,6 +40,58 @@ def assign_scene_units(ifc: type[tool.Ifc], unit: type[tool.Unit]) -> None:
     if units:
         ifc.run("unit.assign_unit", units=units)
 
+def assign_derived_scene_units(ifc: type[tool.Ifc], unit: type[tool.Unit]) -> None:
+    si_units_args = [("LENGTHUNIT",None),
+                          ("AREAUNIT",None),
+                          ("VOLUMEUNIT",None),
+                          ("MASSUNIT","KILO"), 
+                          ("TIMEUNIT",None), 
+                          ("PLANEANGLEUNIT",None), 
+                          ("FORCEUNIT",None), 
+                          ("PRESSUREUNIT",None)]
+    
+    file = ifc.get()
+    units = []
+    assigned_units = file.by_type("IfcProject")[0].UnitsInContext.Units
+
+    for args in si_units_args:
+        installed = [u for u in assigned_units if u.UnitType == args[0]]
+        if len(installed):
+            units.append(installed[0])
+            continue
+        units.append(
+                    ifc.run("unit.add_si_unit", unit_type=args[0], prefix=args[1])
+                )
+    length = units[0]
+    area = units[1]
+    volume = units[2]
+    mass = units[3]
+    time = units[4]
+    angle = units[5]
+    force = units[6]
+    derived_units_args = [("LINEARFORCEUNIT",{force: 1, length: -1},"N/m"),
+                          ("LINEARMOMENTUNIT",{force: 1, length: 1, length:-1},"N.m/m"),
+                          ("LINEARSTIFFNESSUNIT",{force: 1, length: -1,},"N/m"),
+                          ("MASSDENSITYUNIT",{mass: 1, volume:-1},"kg/m³"),
+                          ("MASSPERLENGTHUNIT",{mass:1,length:-1},"kg/m"),
+                          ("MODULUSOFELASTICITYUNIT",{force:1,area:-1},"Pa"),
+                          ("MOMENTOFINERTIAUNIT",{length:4},"m^4"),
+                          ("PLANARFORCEUNIT",{force:1,area:-1},"N/m²"),
+                          ("ROTATIONALMASSUNIT",{mass:1,area:1},"kg.m²"),
+                          ("ROTATIONALSTIFFNESSUNIT",{force:1,length:1,angle:-1},"N.m/rad"),
+                          ("SECTIONAREAINTEGRALUNIT",{length:5},"m^5"),
+                          ("SECTIONMODULUSUNIT",{length:3},"m³"),
+                          ("SHEARMODULUSUNIT",{force:1,area:-1},"N/m²")]
+    for args in derived_units_args:
+        installed = [u for u in assigned_units if u.UnitType == args[0]]
+        if len(installed):
+            units.append(installed[0])
+            continue
+        new_unit = ifc.run("unit.add_derived_unit", unit_type=args[0], userdefinedtype=None, attributes=args[1])
+        units.append(new_unit)
+
+    if units:
+        ifc.run("unit.assign_unit", units=units)
 
 def assign_unit(ifc: type[tool.Ifc], unit_tool: type[tool.Unit], unit: ifcopenshell.entity_instance) -> None:
     ifc.run("unit.assign_unit", units=[unit])

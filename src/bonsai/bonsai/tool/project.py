@@ -211,6 +211,10 @@ class Project(bonsai.core.tool.Project):
     @classmethod
     def run_unit_assign_scene_units(cls):
         return bonsai.core.unit.assign_scene_units(tool.Ifc, tool.Unit)
+    
+    @classmethod
+    def run_unit_assign_derived_scene_units(cls):
+        return bonsai.core.unit.assign_derived_scene_units(tool.Ifc, tool.Unit)
 
     @classmethod
     def set_context(cls, context: ifcopenshell.entity_instance) -> None:
